@@ -1,9 +1,9 @@
 ﻿using CongestionTaxCalculator.Dto.EFCoreModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace CongestionTaxCalculator.DataAccess
 {
@@ -125,30 +125,27 @@ namespace CongestionTaxCalculator.DataAccess
                 context.SaveChanges();
             }
         }
-        public List<TaxPaymentPeriod> GetAllTaxPaymentPeriods()
-        {
-            using (var context = new ApiContext())
-            {
-                return context.TaxPaymentPeriod.ToList();
 
-            }
+        public async Task<List<TaxPaymentPeriod>> GetAllTaxPaymentPeriodsAsync()
+        {
+            using var context = new ApiContext();
+
+            return await context.TaxPaymentPeriod.ToListAsync();
         }
 
-        public int GetTaxPaymentWithTime(DateTime dateTime)
+        public async Task<int> GetTaxPaymentWithTimeAsync(DateTime dateTime)
         {
-
             var currentTime = dateTime.TimeOfDay;
-            using (var context = new ApiContext())
-            {
+            using var context = new ApiContext();
 
-                var result=context.TaxPaymentPeriod.Where(x => x.StartTime.TimeOfDay.Hours <= dateTime.TimeOfDay.Hours
-                                                    && x.StartTime.TimeOfDay.Minutes <= dateTime.TimeOfDay.Minutes
-                                                    && x.EndTime.TimeOfDay.Hours >= dateTime.TimeOfDay.Hours
-                                                    && x.EndTime.TimeOfDay.Minutes >= dateTime.TimeOfDay.Minutes);
-            }
-           
+            var taxPaymentPeriod = await context.TaxPaymentPeriod.Where(x => x.StartTime.TimeOfDay.Hours <= dateTime.TimeOfDay.Hours
+                                                 && x.StartTime.TimeOfDay.Minutes <= dateTime.TimeOfDay.Minutes
+                                                 && x.EndTime.TimeOfDay.Hours >= dateTime.TimeOfDay.Hours
+                                                 && x.EndTime.TimeOfDay.Minutes >= dateTime.TimeOfDay.Minutes).FirstOrDefaultAsync();
+            if (taxPaymentPeriod is null)
+                throw new ArgumentNullException(nameof(TaxPaymentPeriod.Amount));
 
-            return 1;
+            return taxPaymentPeriod.Amount;
         }
     }
 }
