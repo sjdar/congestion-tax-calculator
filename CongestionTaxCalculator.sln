@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.34301.259
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Business", "CongestionTaxCalculator.Business.csproj", "{2DD25E9E-385F-403F-AB43-6C98B273A2ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Business", "CongestionTaxCalculator.Business\CongestionTaxCalculator.Business.csproj", "{2DD25E9E-385F-403F-AB43-6C98B273A2ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.DataAccess", "CongestionTaxCalculator.DataAccess\CongestionTaxCalculator.DataAccess.csproj", "{3791D4AF-F956-4192-8504-019D1F5CA638}"
 EndProject
