@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34301.259
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Business", "CongestionTaxCalculator.Business.csproj", "{2DD25E9E-385F-403F-AB43-6C98B273A2ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.DataAccess", "CongestionTaxCalculator.DataAccess\CongestionTaxCalculator.DataAccess.csproj", "{3791D4AF-F956-4192-8504-019D1F5CA638}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Dto", "CongestionTaxCalculator.Dto\CongestionTaxCalculator.Dto.csproj", "{6070AF59-A95C-426F-81A5-76A685CDEDF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.WeApi", "CongestionTaxCalculator.WeApi\CongestionTaxCalculator.WeApi.csproj", "{0EB4F6D8-0B60-4434-8FA6-E0F7909A8774}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DD25E9E-385F-403F-AB43-6C98B273A2ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD25E9E-385F-403F-AB43-6C98B273A2ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD25E9E-385F-403F-AB43-6C98B273A2ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD25E9E-385F-403F-AB43-6C98B273A2ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3791D4AF-F956-4192-8504-019D1F5CA638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3791D4AF-F956-4192-8504-019D1F5CA638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3791D4AF-F956-4192-8504-019D1F5CA638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3791D4AF-F956-4192-8504-019D1F5CA638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6070AF59-A95C-426F-81A5-76A685CDEDF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6070AF59-A95C-426F-81A5-76A685CDEDF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6070AF59-A95C-426F-81A5-76A685CDEDF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6070AF59-A95C-426F-81A5-76A685CDEDF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EB4F6D8-0B60-4434-8FA6-E0F7909A8774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB4F6D8-0B60-4434-8FA6-E0F7909A8774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EB4F6D8-0B60-4434-8FA6-E0F7909A8774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EB4F6D8-0B60-4434-8FA6-E0F7909A8774}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1DFF0D3-42AD-4D24-8181-9EC9A3A78815}
+	EndGlobalSection
+EndGlobal
