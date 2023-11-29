@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.Dto", "CongestionTaxCalculator.Dto\CongestionTaxCalculator.Dto.csproj", "{6070AF59-A95C-426F-81A5-76A685CDEDF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxCalculator.WeApi", "CongestionTaxCalculator.WeApi\CongestionTaxCalculator.WeApi.csproj", "{0EB4F6D8-0B60-4434-8FA6-E0F7909A8774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CongestionTaxCalculator.WebApi", "CongestionTaxCalculator.WeApi\CongestionTaxCalculator.WebApi.csproj", "{0EB4F6D8-0B60-4434-8FA6-E0F7909A8774}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
