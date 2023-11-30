@@ -19,6 +19,7 @@ public class CongestionTaxCalculatorService : ICongestionTaxCalculatorService
     }
     public async Task<int> GetTax(VehicelTypes vehicelTypes, DateTime[] dates)
     {
+        var dgdgdf= dates.GroupBy(x=>x.Month);
         DateTime intervalStart = dates.First();
         int totalFee = 0;
 
@@ -26,7 +27,7 @@ public class CongestionTaxCalculatorService : ICongestionTaxCalculatorService
         {
             totalFee = await CalculateTotalFeeAsync(intervalStart, vehicelTypes, date);
         }
-        if (totalFee > 60) totalFee = 60;
+        if (totalFee > appSettings.MaximumTaxAmountPerDay) totalFee = appSettings.MaximumTaxAmountPerDay;
         return totalFee;
     }
 

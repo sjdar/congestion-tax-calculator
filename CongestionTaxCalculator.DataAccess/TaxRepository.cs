@@ -120,9 +120,12 @@ namespace CongestionTaxCalculator.DataAccess
                 }
                 };
                 #endregion
+                if (context.TaxPaymentPeriod == null)
+                {
+                    context.TaxPaymentPeriod.AddRange(taxPaymentPeriod);
+                    context.SaveChanges();
 
-                context.TaxPaymentPeriod.AddRange(taxPaymentPeriod);
-                context.SaveChanges();
+                }
             }
         }
 

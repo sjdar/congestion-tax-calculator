@@ -17,6 +17,7 @@ namespace CongestionTaxCalculator.DataAccess
            
         }
         public DbSet<TaxPaymentPeriod> TaxPaymentPeriod { get; set; }
-  
+
+
     }
 }
