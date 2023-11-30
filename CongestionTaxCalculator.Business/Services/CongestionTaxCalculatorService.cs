@@ -28,7 +28,7 @@ public class CongestionTaxCalculatorService : ICongestionTaxCalculatorService
 
         foreach (var item in trafficInOneDay)
         {
-            var date = item.Select(x => x.Date).FirstOrDefault();
+            var date = item.FirstOrDefault();
 
             if (item.Count() > 1)
             {
@@ -38,31 +38,44 @@ public class CongestionTaxCalculatorService : ICongestionTaxCalculatorService
                     foreach (var groupedHourse in groupByHours)
                     {
                         //for same hours rules say just pay once
-                        
-                        totalFee.Add(await CalculateTotalFeeAsync(date, vehicelTypes));
+                        var result = await GetTheHighestAmount(date, vehicelTypes);
+                        if (result > appSettings.MaximumTaxAmountPerDay) result = appSettings.MaximumTaxAmountPerDay;
+                        totalFee.Add(result);
 
                     }
 
                 }
 
             }
-            else totalFee.Add(await CalculateTotalFeeAsync(date, vehicelTypes));
+            else
+            {
+                var result = await CalculateTotalFeeAsync(date, vehicelTypes);
+                if (result > appSettings.MaximumTaxAmountPerDay) result = appSettings.MaximumTaxAmountPerDay;
+                totalFee.Add(result);
+            }
+                
+             
         }
         var finalSum = totalFee.Sum();
         if (finalSum > appSettings.MaximumTaxAmountPerDay) finalSum = appSettings.MaximumTaxAmountPerDay;
         return new TaxCalculatorResult() { IsTollFree = finalSum > 0 ? false : true, Currency = appSettings.Currency, Amount = finalSum };
     }
 
-    private async Task<int> CalculateTotalFeeAsync(DateTime date, VehicelTypes vehicelTypes)
+    private async Task<int> CalculateTotalFeeAsync(DateTime date, VehicelTypes vehicelType)
     {
-        if (CheckTollFreeVehicles(date, vehicelTypes)) return 0;
+        if (CheckTollFreeVehicles(date, vehicelType)) return 0;
         return await authorRepository.GetTaxPaymentWithTimeAsync(date);
+    }
+    private async Task<int> GetTheHighestAmount(DateTime date,VehicelTypes vehicelType)
+    {
+        if (CheckTollFreeVehicles(date, vehicelType)) return 0;
+        return await authorRepository.GetTheHighestAmountAsync(date);
     }
 
     private bool CheckTollFreeVehicles(DateTime date, VehicelTypes vehicelTypes)
     {
-        if (date.IsTollFreeDate() || vehicelTypes.IsTollFreeVehicle())
-            return true;
+        //if (date.IsTollFreeDate() || vehicelTypes.IsTollFreeVehicle())
+            //return true;
         return false;
     }
 
