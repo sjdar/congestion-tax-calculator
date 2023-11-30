@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,106 +14,96 @@ namespace CongestionTaxCalculator.DataAccess
         {
             using (var context = new ApiContext())
             {
-                #region TaxPaymentPeriod Init
-                var taxPaymentPeriod = new List<TaxPaymentPeriod>
+                #region GothenburgTaxPaymentPeriod Init
+                var GothenburgTaxPaymentPeriod = new List<GothenburgTaxPaymentPeriod>
                 {
-                new TaxPaymentPeriod
+                new GothenburgTaxPaymentPeriod
                 {
                     Id=1,
                     Amount =8,
-                    Currency ="SEK",
                     StartTime=DateTime.Parse("06:00"),
                     EndTime=DateTime.Parse("06:29"),
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
 
                 },
-                new TaxPaymentPeriod
+                new GothenburgTaxPaymentPeriod
                 {
                     Id=2,
                     Amount =13,
-                    Currency ="SEK",
                     StartTime=DateTime.Parse("06:30"),
                     EndTime=DateTime.Parse("06:59"),
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
 
-                new TaxPaymentPeriod
+                new GothenburgTaxPaymentPeriod
                 {
                     Id=3,
                     Amount =18,
-                    Currency ="SEK",
                     StartTime=DateTime.Parse("07:00"),
                     EndTime=DateTime.Parse("07:59"),
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
-                new TaxPaymentPeriod
+                new GothenburgTaxPaymentPeriod
                 {
                     Id=4,
                     Amount =13,
-                    Currency ="SEK",
                     StartTime=DateTime.Parse("08:00"),
                     EndTime=DateTime.Parse("08:29"),
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
-                new TaxPaymentPeriod
+                new GothenburgTaxPaymentPeriod
                 {
                     Id=5,
                     Amount =8,
-                    Currency ="SEK",
                     StartTime=DateTime.Parse("08:30"),
                     EndTime=DateTime.Parse("14:59"),
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
-                new TaxPaymentPeriod
+                new GothenburgTaxPaymentPeriod
                 {
                     Id=6,
                     Amount =13,
-                    Currency ="SEK",
                     StartTime=DateTime.Parse("15:00"),
                     EndTime=DateTime.Parse("15:29"),
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
-                new TaxPaymentPeriod
+                new GothenburgTaxPaymentPeriod
                 {
                     Id=7,
                     Amount =18,
-                    Currency ="SEK",
                     StartTime=DateTime.Parse("15:30"),
                     EndTime=DateTime.Parse("16:59"),
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
-                new TaxPaymentPeriod
+                new GothenburgTaxPaymentPeriod
                 {
                     Id=8,
                     Amount =13,
-                    Currency ="SEK",
                     StartTime=DateTime.Parse("17:00"),
                     EndTime=DateTime.Parse("17:59"),
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
-                new TaxPaymentPeriod
+                new GothenburgTaxPaymentPeriod
                 {
                     Id=9,
                     Amount =8,
-                    Currency ="SEK",
                     StartTime=DateTime.Parse("18:00"),
                     EndTime=DateTime.Parse("18:29"),
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
-                new TaxPaymentPeriod
+                new GothenburgTaxPaymentPeriod
                 {
                     Id=10,
                     Amount =0,
-                    Currency ="SEK",
                     StartTime=DateTime.Parse("18:30"),
                     EndTime=DateTime.Parse("05:59"),
                     CreatedBy="s.jahani",
@@ -120,35 +111,35 @@ namespace CongestionTaxCalculator.DataAccess
                 }
                 };
                 #endregion
-                if (context.TaxPaymentPeriod == null)
+                if (context.GothenburgTaxPaymentPeriod == null)
                 {
-                    context.TaxPaymentPeriod.AddRange(taxPaymentPeriod);
+                    context.GothenburgTaxPaymentPeriod.AddRange(GothenburgTaxPaymentPeriod);
                     context.SaveChanges();
 
                 }
             }
         }
 
-        public async Task<List<TaxPaymentPeriod>> GetAllTaxPaymentPeriodsAsync()
+        public async Task<List<GothenburgTaxPaymentPeriod>> GetAllGothenburgTaxPaymentPeriodsAsync()
         {
             using var context = new ApiContext();
 
-            return await context.TaxPaymentPeriod.ToListAsync();
+            return await context.GothenburgTaxPaymentPeriod.ToListAsync();
         }
 
         public async Task<int> GetTaxPaymentWithTimeAsync(DateTime dateTime)
         {
-            var currentTime = dateTime.TimeOfDay;
+            string timeString24Hour = dateTime.ToString("HH:mm", CultureInfo.CurrentCulture);
             using var context = new ApiContext();
 
-            var taxPaymentPeriod = await context.TaxPaymentPeriod.Where(x => x.StartTime.TimeOfDay.Hours <= dateTime.TimeOfDay.Hours
-                                                 && x.StartTime.TimeOfDay.Minutes <= dateTime.TimeOfDay.Minutes
-                                                 && x.EndTime.TimeOfDay.Hours >= dateTime.TimeOfDay.Hours
-                                                 && x.EndTime.TimeOfDay.Minutes >= dateTime.TimeOfDay.Minutes).FirstOrDefaultAsync();
-            if (taxPaymentPeriod is null)
-                throw new ArgumentNullException(nameof(TaxPaymentPeriod.Amount));
+            var GothenburgTaxPaymentPeriod = await context.GothenburgTaxPaymentPeriod.Where(x => x.StartTime.Hour <= dateTime.Hour
+                                                 && x.StartTime.Minute <= dateTime.Minute
+                                                 && x.EndTime.Hour >= dateTime.Hour
+                                                 && x.EndTime.Minute >= dateTime.Minute).FirstOrDefaultAsync();
+            if (GothenburgTaxPaymentPeriod is null)
+                throw new ArgumentNullException(nameof(GothenburgTaxPaymentPeriod.Amount));
 
-            return taxPaymentPeriod.Amount;
+            return GothenburgTaxPaymentPeriod.Amount;
         }
     }
 }

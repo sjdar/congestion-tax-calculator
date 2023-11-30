@@ -4,5 +4,6 @@
     {
         public int MaximumTaxAmountPerDay { get; set; } = 60;
         public string CountryCodeLetter { get; set; } = "de";
+        public string Currency { get; set; } = "SEK";
     }
 }

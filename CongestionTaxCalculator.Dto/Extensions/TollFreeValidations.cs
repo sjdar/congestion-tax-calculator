@@ -11,10 +11,11 @@ namespace CongestionTaxCalculator.Dto.Extensions
     {
         public static bool IsTollFreeVehicle(this VehicelTypes vehicle)
         {
-
-            var tollFreeVehicles = Enum.Parse(typeof(TollFreeVehicles), vehicle.ToString());
-            if (tollFreeVehicles != null) return true;
+            Enum.TryParse(typeof(TollFreeVehicles), vehicle.ToString(), out object result);
+            if (result != null) return true;
             return false;
+        
+         
         }
 
         public static bool IsTollFreeDate(this DateTime date)

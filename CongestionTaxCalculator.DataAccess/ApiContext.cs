@@ -13,10 +13,10 @@ namespace CongestionTaxCalculator.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TaxPaymentPeriod>().HasKey(x => x.Id);
+            modelBuilder.Entity<GothenburgTaxPaymentPeriod>().HasKey(x => x.Id);
            
         }
-        public DbSet<TaxPaymentPeriod> TaxPaymentPeriod { get; set; }
+        public DbSet<GothenburgTaxPaymentPeriod> GothenburgTaxPaymentPeriod { get; set; }
 
 
     }

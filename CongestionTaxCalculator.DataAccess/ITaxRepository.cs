@@ -7,7 +7,7 @@ namespace CongestionTaxCalculator.DataAccess
 {
     public interface ITaxRepository
     {
-        Task<List<TaxPaymentPeriod>> GetAllTaxPaymentPeriodsAsync();
+        Task<List<GothenburgTaxPaymentPeriod>> GetAllGothenburgTaxPaymentPeriodsAsync();
         Task<int> GetTaxPaymentWithTimeAsync(DateTime dateTime);
 
     }
