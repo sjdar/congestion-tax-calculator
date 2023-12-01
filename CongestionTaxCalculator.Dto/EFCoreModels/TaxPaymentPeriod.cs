@@ -11,8 +11,10 @@ namespace CongestionTaxCalculator.Dto.EFCoreModels
         [Key]
         public int Id { get; set; }
         public int Amount { get; set; }
-        public DateTime StartTime { get; set; } 
-        public DateTime EndTime { get; set; } 
+        public int StartTimeHour { get; set; }
+        public int StartTimeMinute { get; set; }
+        public int EndTimeHour { get; set; }
+        public int EndTimeMinute { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
         public DateTime? ModifiedOn { get; set; }

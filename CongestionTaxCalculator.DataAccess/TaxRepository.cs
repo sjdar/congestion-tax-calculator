@@ -21,8 +21,10 @@ namespace CongestionTaxCalculator.DataAccess
                 {
                     Id=1,
                     Amount =8,
-                    StartTime=DateTime.Parse("06:00 AM"),
-                    EndTime=DateTime.Parse("06:29 AM"),
+                    StartTimeHour=06,
+                    StartTimeMinute=0,
+                    EndTimeHour=06,
+                    EndTimeMinute=29,
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
 
@@ -31,8 +33,10 @@ namespace CongestionTaxCalculator.DataAccess
                 {
                     Id=2,
                     Amount =13,
-                    StartTime=DateTime.Parse("06:30 AM"),
-                    EndTime=DateTime.Parse("06:59 AM"),
+                    StartTimeHour=6,
+                    StartTimeMinute=30,
+                    EndTimeHour=6,
+                    EndTimeMinute=59,
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
@@ -41,8 +45,10 @@ namespace CongestionTaxCalculator.DataAccess
                 {
                     Id=3,
                     Amount =18,
-                    StartTime=DateTime.Parse("07:00 AM"),
-                    EndTime=DateTime.Parse("07:59 AM"),
+                    StartTimeHour=7,
+                    StartTimeMinute=0,
+                    EndTimeHour=7,
+                    EndTimeMinute=59,
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
@@ -50,8 +56,10 @@ namespace CongestionTaxCalculator.DataAccess
                 {
                     Id=4,
                     Amount =13,
-                    StartTime=DateTime.Parse("08:00 AM"),
-                    EndTime=DateTime.Parse("08:29 AM"),
+                    StartTimeHour=8,
+                    StartTimeMinute=0,
+                    EndTimeHour=8,
+                    EndTimeMinute=29,
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
@@ -59,8 +67,10 @@ namespace CongestionTaxCalculator.DataAccess
                 {
                     Id=5,
                     Amount =8,
-                    StartTime=DateTime.Parse("08:30 AM"),
-                    EndTime=DateTime.Parse("14:59 PM"),
+                    StartTimeHour=8,
+                    StartTimeMinute=30,
+                    EndTimeHour=14,
+                    EndTimeMinute=59,
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
@@ -68,8 +78,10 @@ namespace CongestionTaxCalculator.DataAccess
                 {
                     Id=6,
                     Amount =13,
-                    StartTime=DateTime.Parse("15:00 PM"),
-                    EndTime=DateTime.Parse("15:29 PM"),
+                    StartTimeHour=15,
+                    StartTimeMinute=0,
+                    EndTimeHour=15,
+                    EndTimeMinute=29,
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
@@ -77,8 +89,10 @@ namespace CongestionTaxCalculator.DataAccess
                 {
                     Id=7,
                     Amount =18,
-                    StartTime=DateTime.Parse("15:30 PM"),
-                    EndTime=DateTime.Parse("16:59 PM"),
+                    StartTimeHour=15,
+                    StartTimeMinute=30,
+                    EndTimeHour=16,
+                    EndTimeMinute=59,
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
@@ -86,8 +100,10 @@ namespace CongestionTaxCalculator.DataAccess
                 {
                     Id=8,
                     Amount =13,
-                    StartTime=DateTime.Parse("17:00 PM"),
-                    EndTime=DateTime.Parse("17:59 PM"),
+                    StartTimeHour=17,
+                    StartTimeMinute=0,
+                    EndTimeHour=17,
+                    EndTimeMinute=59,
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
@@ -95,8 +111,10 @@ namespace CongestionTaxCalculator.DataAccess
                 {
                     Id=9,
                     Amount =8,
-                    StartTime=DateTime.Parse("18:00 PM"),
-                    EndTime=DateTime.Parse("18:29 PM"),
+                    StartTimeHour=18,
+                    StartTimeMinute=0,
+                    EndTimeHour=18,
+                    EndTimeMinute=29,
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 },
@@ -104,8 +122,10 @@ namespace CongestionTaxCalculator.DataAccess
                 {
                     Id=10,
                     Amount =0,
-                    StartTime=DateTime.Parse("18:30 PM"),
-                    EndTime=DateTime.Parse("05:59 AM"),
+                    StartTimeHour=18,
+                    StartTimeMinute=30,
+                    EndTimeHour=05,
+                    EndTimeMinute=59,
                     CreatedBy="s.jahani",
                     CreatedOn=DateTime.Now
                 }
@@ -133,62 +153,22 @@ namespace CongestionTaxCalculator.DataAccess
             var gothenburgTaxPaymentPeriod = new GothenburgTaxPaymentPeriod();
             using var context = new ApiContext();
 
-            if (dateTime.ToString("hh:mm tt").Contains("AM"))
-            {
-               var midNightRange=await context.GothenburgTaxPaymentPeriod.Where(x => x.StartTime.Hour > x.EndTime.Hour).FirstOrDefaultAsync();
 
-                if(dateTime.Hour <=midNightRange.StartTime.Hour && dateTime.Hour <= midNightRange.EndTime.Hour) return midNightRange.Amount;
+            gothenburgTaxPaymentPeriod = await context.GothenburgTaxPaymentPeriod.Where(x => x.StartTimeHour <= dateTime.Hour
+                     && x.StartTimeMinute <= dateTime.Minute
+                     && x.EndTimeHour >= dateTime.Hour
+                     && x.EndTimeMinute >= dateTime.Minute).FirstOrDefaultAsync();
+            if (gothenburgTaxPaymentPeriod != null) return gothenburgTaxPaymentPeriod.Amount;
 
-            }
-            else
-            {
-                var convertedTime= dateTime.ToString("hh:mm", CultureInfo.InvariantCulture).Split(":");
-                int hour = Convert.ToInt32(convertedTime[0]);   
-                int minute = Convert.ToInt32(convertedTime[1]);
-                 gothenburgTaxPaymentPeriod = await context.GothenburgTaxPaymentPeriod.Where(x => x.StartTime.Hour <= hour
-                                     && x.StartTime.Minute <= minute
-                                     && x.EndTime.Hour >= hour
-                                     && x.EndTime.Minute >= minute).FirstOrDefaultAsync();
-                if (gothenburgTaxPaymentPeriod is null)
-                    throw new ArgumentNullException(nameof(GothenburgTaxPaymentPeriod.Amount));
+            gothenburgTaxPaymentPeriod = await context.GothenburgTaxPaymentPeriod.Where(x => x.StartTimeHour <= dateTime.Hour
+                                             && x.EndTimeHour >= dateTime.Hour
+                                           ).FirstOrDefaultAsync();
+            if (gothenburgTaxPaymentPeriod != null) return gothenburgTaxPaymentPeriod.Amount;
+            throw new ArgumentNullException(nameof(GothenburgTaxPaymentPeriod.Amount));
 
-                
-            }
 
-            return gothenburgTaxPaymentPeriod.Amount;
 
         }
 
-        public async Task<int> GetTheHighestAmountAsync(DateTime dateTime)
-        {
-            var gothenburgTaxPaymentPeriod=new List<GothenburgTaxPaymentPeriod>();
-
-            using var context = new ApiContext();
-
-            if (dateTime.ToString("hh:mm tt").Contains("AM"))
-            {
-                var midNightRange = await context.GothenburgTaxPaymentPeriod.Where(x => x.StartTime.Hour > x.EndTime.Hour).FirstOrDefaultAsync();
-
-                if (dateTime.Hour <= midNightRange.StartTime.Hour && dateTime.Hour <= midNightRange.EndTime.Hour) return midNightRange.Amount;
-
-            }
-            else
-            {
-                var convertedTime = dateTime.ToString("hh:mm", CultureInfo.InvariantCulture).Split(":");
-                int hour = Convert.ToInt32(convertedTime[0]);
-                int minute = Convert.ToInt32(convertedTime[1]);
-                gothenburgTaxPaymentPeriod = await context.GothenburgTaxPaymentPeriod.Where(x => x.StartTime.Hour <= hour
-                                    && x.EndTime.Hour >= hour).ToListAsync();
-
-                if (!gothenburgTaxPaymentPeriod.Any())
-                    throw new ArgumentNullException(nameof(GothenburgTaxPaymentPeriod.Amount));
-
-
-
-            }
-          
-
-            return gothenburgTaxPaymentPeriod.Sum(x => x.Amount);   
-        }
     }
 }

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 public class CongestionTaxCalculatorService : ICongestionTaxCalculatorService
@@ -30,6 +29,7 @@ public class CongestionTaxCalculatorService : ICongestionTaxCalculatorService
         {
             var date = item.FirstOrDefault();
 
+            // trafic in a Day
             if (item.Count() > 1)
             {
                 var groupByHours = item.GroupBy(x => x.Hour).Select(g => g.ToList());
@@ -37,16 +37,32 @@ public class CongestionTaxCalculatorService : ICongestionTaxCalculatorService
                 {
                     foreach (var groupedHourse in groupByHours)
                     {
+                        var listHighestAmount=new List<int>();  
                         //for same hours rules say just pay once
-                        var result = await GetTheHighestAmount(date, vehicelTypes);
-                        if (result > appSettings.MaximumTaxAmountPerDay) result = appSettings.MaximumTaxAmountPerDay;
-                        totalFee.Add(result);
+                        if(groupedHourse.Count>1)
+                        {
+                            foreach (var items in groupedHourse)
+                            {
+                                listHighestAmount.Add(await CalculateTotalFeeAsync(items, vehicelTypes));
+                            }
+                            var taxForSameHour=listHighestAmount.Max();
+                            if (taxForSameHour > appSettings.MaximumTaxAmountPerDay) taxForSameHour = appSettings.MaximumTaxAmountPerDay;
+                            totalFee.Add(taxForSameHour);
+                        }
+                        else
+                        {
+                            var result = await CalculateTotalFeeAsync(date, vehicelTypes);
+                            if (result > appSettings.MaximumTaxAmountPerDay) result = appSettings.MaximumTaxAmountPerDay;
+                            totalFee.Add(result);
+                        }
+
 
                     }
 
                 }
 
             }
+            // trafic in a different Days
             else
             {
                 var result = await CalculateTotalFeeAsync(date, vehicelTypes);
@@ -66,16 +82,11 @@ public class CongestionTaxCalculatorService : ICongestionTaxCalculatorService
         if (CheckTollFreeVehicles(date, vehicelType)) return 0;
         return await authorRepository.GetTaxPaymentWithTimeAsync(date);
     }
-    private async Task<int> GetTheHighestAmount(DateTime date,VehicelTypes vehicelType)
-    {
-        if (CheckTollFreeVehicles(date, vehicelType)) return 0;
-        return await authorRepository.GetTheHighestAmountAsync(date);
-    }
 
     private bool CheckTollFreeVehicles(DateTime date, VehicelTypes vehicelTypes)
     {
-        //if (date.IsTollFreeDate() || vehicelTypes.IsTollFreeVehicle())
-            //return true;
+        if (date.IsTollFreeDate() || vehicelTypes.IsTollFreeVehicle())
+            return true;
         return false;
     }
 
